@@ -8,7 +8,6 @@ public class DoublyLinkedList<E> {
     private ListNode<E> tail;
     private int length;
 
-
     public static class ListNode<E>{
         private E data;
         private ListNode next;
