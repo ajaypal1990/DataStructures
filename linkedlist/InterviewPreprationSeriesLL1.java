@@ -9,6 +9,8 @@ public class InterviewPreprationSeriesLL1 {
         LinkedList.ListNode<Integer> third = new LinkedList.ListNode<>(30);
         LinkedList.ListNode<Integer> fourth = new LinkedList.ListNode<>(40);
 
+
+
         list.head.next=second;
         second.next=third;
         third.next=fourth;

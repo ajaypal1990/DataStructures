@@ -15,13 +15,17 @@ public class AddTwoNumbers {
         AddTwoNumbers solution=new AddTwoNumbers();
         ListNode result = solution.addTwoNumbers(l1, l2);
 
+        System.out.println(7/10);
+        System.out.println(7%10);
+
         while (result!=null){
             System.out.print(result.data+" ");
             result=result.next;
         }
     }
 
-    private ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+    private ListNode
+    addTwoNumbers(ListNode l1, ListNode l2) {
         ListNode dummy = new ListNode(0);
         ListNode tail=dummy;
         int carry =0;
@@ -29,7 +33,9 @@ public class AddTwoNumbers {
             int x = (l1!=null)?l1.data:0;
             int y = (l2!=null)?l2.data:0;
             int sum = x+y+carry;
+
             carry = sum/10;
+
             tail.next=new ListNode(sum % 10);
             tail=tail.next;
             if(l1!=null)l1=l1.next;

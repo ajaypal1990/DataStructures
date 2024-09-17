@@ -4,6 +4,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collector;
 import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class InterviewPreparationSeries2 {
@@ -62,8 +63,129 @@ public class InterviewPreparationSeries2 {
                 .collect(Collectors.joining(" "));
         System.out.println(reverseString);
 
+        // Find longest sub String without repetation of characters
+        String str5 = "abcdabcde";
+        findLongestSubString(str5);
 
+        String compression = findCompression("aaabbbcc");
+        System.out.println(compression);
 
+        System.out.println(printFirstLetter("Learn With Ajay"));
+
+        System.out.println(isrotatedVersion("abcd","bcda"));
+
+        // Print SubString
+        String str6 ="abcd";
+        for(int i=0;i<str6.length();i++){
+            for (int j=i+1;j<=str6.length();j++){
+                System.out.println(str6.substring(i,j));
+            }
+        }
+        //Square of numbers in Array
+        int[] array2={-6,-1,2,4,5,7};
+        Integer[] squarArray = Arrays.stream(array2)
+                .boxed()
+                .map(i -> i * i)
+                .toArray(Integer[]::new);
+
+        System.out.println("Square of Numbers in Array is "+ Arrays.toString(squarArray));
+
+        // Write a Program in java to find next greater element in Array ?
+        int[] arr5= {10,11,5,4,7};
+
+        findNextGreaterElement(arr5);
+
+        int[] arr6 = {1,2,3,4,5,6};
+
+        Integer[] reverseArray = Arrays.stream(arr6)
+                .boxed().collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+                    Collections.reverse(list);
+                    return list.stream();
+                })).toArray(Integer[]::new);
+
+        System.out.println("Reverse Array is: "+Arrays.toString(reverseArray));
+
+        String[] strArray = {"A", "B", "C", "D", "E"};
+
+        String[] reverseArrayStr = Arrays.stream(strArray)
+                .collect(Collectors.collectingAndThen(Collectors.toList(), list -> {
+                    Collections.reverse(list);
+                    return list.stream();
+                })).toArray(String[]::new);
+
+        System.out.println("Reverse Array is: "+Arrays.toString(reverseArrayStr));
+
+        String[] reverseArray1 = IntStream.rangeClosed(1, strArray.length)
+                .mapToObj(i -> strArray[strArray.length - i])
+                .toArray(String[]::new);
+
+        System.out.println(reverseArray1);
+
+    }
+
+    private static void findNextGreaterElement(int[] arr5) {
+        int len= arr5.length;
+
+        for (int i=0;i<len;i++){
+            int next = -1;
+            for (int j = i+1;j<len;j++){
+                if(arr5[i]<arr5[j]){
+                    next=arr5[j];
+                    break;
+                }
+            }
+            System.out.println(arr5[i]+":"+next);
+        }
+    }
+
+    private static boolean isrotatedVersion(String str1, String str2) {
+        if(str1 == null || str2 == null){
+            return false;
+        } else if (str1.length() != str2.length()) {
+            return false;
+        }else {
+            String concatenated =str1+str1;
+            return concatenated.contains(str2);
+
+        }
+    }
+
+    private static String printFirstLetter(String str) {
+        return Arrays.stream(str.split(" "))
+                .map(word->String.valueOf(word.charAt(0)))
+                .collect(Collectors.joining());
+    }
+
+    private static String findCompression(String str) {
+        Map<Character, Long> collect = str.chars().mapToObj(c -> (char) c).collect(Collectors.groupingBy(Function.identity(), Collectors.counting()));
+        System.out.println(collect);
+        return collect.entrySet().stream().map(entry->entry.getKey()+""+entry.getValue())
+                .collect(Collectors.joining());
+    }
+
+    private static void findLongestSubString(String str5) {
+        HashSet<Character> hashSet=new HashSet<>();
+        StringBuilder longestTillNow =new StringBuilder();
+        StringBuilder longestOverall =new StringBuilder();
+        char[] chArray =str5.toCharArray();
+        int len = chArray.length;//6
+        for(int i=0;i<len;i++){
+            if(hashSet.contains(chArray[i])){
+                hashSet.clear();
+                hashSet.add(chArray[i]);
+
+                longestTillNow=new StringBuilder();
+                longestTillNow.append(chArray[i]);
+            }else {
+                hashSet.add(chArray[i]);
+                longestTillNow.append(chArray[i]);
+            }
+            if(longestTillNow.length()>longestOverall.length()){
+                longestOverall=new StringBuilder(longestTillNow);
+            }
+
+        }
+        System.out.println("Longest String is: "+longestOverall);
     }
 
     private static Set<List<Integer>> pairsSum(int[] numbers, int targetSum) {

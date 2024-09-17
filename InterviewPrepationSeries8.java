@@ -96,7 +96,7 @@ public class InterviewPrepationSeries8 {
         System.out.println(sortedSalaries);
         // Step 3: Find the Nth highest salary and return the map with that salary as the key
         if (n <= sortedSalaries.size()) {
-            int nthHighestSalary = sortedSalaries.get(n - 1);
+            int nthHighestSalary = sortedSalaries.get(n-1);
             Map<Integer, List<String>> result = new HashMap<>();
             result.put(nthHighestSalary, salaryToEmployeeMap.get(nthHighestSalary));
             return result;

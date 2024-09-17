@@ -1,6 +1,7 @@
 package com.ajay.concepts;
 
 import java.util.*;
+import java.util.function.Function;
 import java.util.stream.Collectors;
 
 public class InterviewPreparationSeries4 {
@@ -20,6 +21,15 @@ public class InterviewPreparationSeries4 {
         postPerType.put(BlogPostType.REVEIW, Arrays.asList(post2,post5));
         postPerType.put(BlogPostType.GUIDE, Arrays.asList(post3));
 
+        // Find the Blog post with the maximum likes
+        Optional<BlogPost> maxLikes = postPerType.values().stream().flatMap(List::stream)
+                .max(Comparator.comparing(blog -> blog.likes));
+
+        maxLikes.ifPresent(blogPost -> {
+
+        });
+
+
         // Find the blog post with the maximum likes
         Optional<BlogPost> maxLikesPost = postPerType.values().stream().flatMap(blogpost -> blogpost.stream()).max(Comparator.comparing(post -> post.likes));
         maxLikesPost.ifPresent(blogPost->{
@@ -32,6 +42,12 @@ public class InterviewPreparationSeries4 {
 
         //Group Blog Posts by Author:
         //{"ajay pal": {"post1,post5"}}
+
+
+        Map<String, List<BlogPost>> postByAuthors = postPerType.values().stream().flatMap(postPer -> postPer.stream())
+                .collect(Collectors.groupingBy(blog -> blog.author));
+
+
         Map<String,List<BlogPost>> postsByAuthor = postPerType.values().stream().flatMap(List::stream)
                 .collect(Collectors.groupingBy(post-> post.author));
         System.out.println();
@@ -54,6 +70,11 @@ public class InterviewPreparationSeries4 {
 
 
         //Find the Most Liked Post for Each BlogPostType:
+
+        Map<BlogPostType,BlogPost> mostLikesBlogPost = postPerType.entrySet().stream()
+                .collect(Collectors.toMap(entry->entry.getKey(),entry->entry.getValue().stream().max(Comparator.comparing(post->post.likes))
+                        .orElseGet(null)));
+
         Map<BlogPostType,BlogPost> mostLikedPostPerType = postPerType.entrySet()
                 .stream().collect(Collectors.toMap(entry->entry.getKey(),entry->entry.getValue().stream()
                         .max(Comparator.comparing(post->post.likes)).orElseGet(null)));
