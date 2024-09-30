@@ -432,11 +432,13 @@ public class Next30InterviewPrograms {
     }
 
     private static int secondHighestNumber(int[] arr) {
-    return Arrays.stream(arr)
-             .distinct().boxed()
-             .sorted((a,b)->b-a)
-             .skip(1)
-             .findFirst().orElseThrow(()->new IllegalArgumentException("Array should have at least two distinct elements"));
+    int[] arr1 = Arrays.stream(arr)
+            .distinct()
+            .sorted().toArray();
+        System.out.println("Sorted Distinct Array:"+Arrays.toString(arr1));
+
+           return Arrays.stream(arr1).skip(arr1.length-2)
+            .findFirst().getAsInt();
     }
 
     private static void printNumberRecursively(int n) {

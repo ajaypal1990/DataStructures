@@ -67,7 +67,10 @@ public class InterviewPrepationSeries8 {
         employeeSalaries.put("Mason", 85000);
         employeeSalaries.put("Lucas", 75000); // Duplicate salary
 
-        int n = 3; // We want to find the 2nd highest salary
+        int n = 2; // We want to find the 2nd highest salary
+
+        Map<Integer, List<String>> nthSalaryGroup1 = groupEmployeeWithSalary(employeeSalaries,n);
+        System.out.println("==="+nthSalaryGroup1);
 
         // Call the dynamic method to get the grouped map with the Nth highest salary
         Map<Integer, List<String>> nthSalaryGroup = groupEmployeesBySalary(employeeSalaries, n);
@@ -77,6 +80,29 @@ public class InterviewPrepationSeries8 {
                 System.out.println("Nth Highest Salary: " + salary + " -> Employees: " + employees));
 
         }
+
+    private static  Map<Integer, List<String>>  groupEmployeeWithSalary(Map<String, Integer> employeeSalaries, int n) {
+        Map<Integer, List<String>> collect = employeeSalaries.entrySet().stream().collect(Collectors.groupingBy(Map.Entry::getValue, Collectors.mapping(Map.Entry::getKey, Collectors.toList())));
+        System.out.println("group By Ssalary" +collect);
+
+        List<Integer> reverseSalaryList = collect.keySet().stream().sorted(Collections.reverseOrder())
+                .collect(Collectors.toList());
+
+        System.out.println("Salary in Desecnidng Order: "+reverseSalaryList);
+
+        if (n<=reverseSalaryList.size()){
+           // int nthHighestSalary = sortedSalaries.get(n-1);
+            int nthHighestSalary = reverseSalaryList.get(n-1);
+            Map<Integer,List<String>> result=new HashMap<>();
+            result.put(nthHighestSalary,collect.get(nthHighestSalary));
+            return result;
+        }else {
+            System.out.println("Given Value is Out of range");
+            return null;
+
+        }
+
+    }
 
 
     public static Map<Integer, List<String>> groupEmployeesBySalary(Map<String, Integer> employeeSalaries, int n) {
